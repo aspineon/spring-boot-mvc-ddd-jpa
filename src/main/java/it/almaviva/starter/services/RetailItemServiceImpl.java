@@ -1,6 +1,6 @@
 package it.almaviva.starter.services;
 
-import it.almaviva.starter.domain.entities.RetailItem;
+import it.almaviva.starter.domain.jpa.entities.RetailItemEntity;
 import it.almaviva.starter.repositories.RetailItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class RetailItemServiceImpl implements RetailItemService {
     public Long registerRandomRetailItem() {
         String title = "Title " + UUID.randomUUID().toString();
         String description = "Description " + UUID.randomUUID().toString();
-        RetailItem randomRetailItem = new RetailItem(title, description);
-        return retailItemRepository.save(randomRetailItem).id;
+        RetailItemEntity randomRetailItem = new RetailItemEntity(title, description);
+        return retailItemRepository.save(randomRetailItem).getId();
     }
 }

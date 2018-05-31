@@ -1,9 +1,9 @@
 package it.almaviva.starter.services;
 
-import it.almaviva.starter.domain.entities.Customer;
-import it.almaviva.starter.domain.entities.Order;
-import it.almaviva.starter.domain.entities.OrderItem;
-import it.almaviva.starter.domain.entities.RetailItem;
+import it.almaviva.starter.domain.jpa.entities.CustomerEntity;
+import it.almaviva.starter.domain.jpa.entities.OrderEntity;
+import it.almaviva.starter.domain.jpa.entities.OrderItemEntity;
+import it.almaviva.starter.domain.jpa.entities.RetailItemEntity;
 import it.almaviva.starter.repositories.CustomerRepository;
 import it.almaviva.starter.repositories.OrderItemRepository;
 import it.almaviva.starter.repositories.OrderRepository;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -30,16 +29,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Long registerOrder() {
         // retrieve the retail item using it's id
-        RetailItem retailItem = retailItemRepository.findById(1L).get();
+        RetailItemEntity retailItem = retailItemRepository.findById(1L).get();
         // retrieve the customer using it's id
-        Customer customer = customerRepository.findById(1L).get();
+        CustomerEntity customer = customerRepository.findById(1L).get();
         // create the an order Item
-        OrderItem orderItem = new OrderItem(5, retailItem);
-        Set<OrderItem> orderItems = new HashSet<>();
+        OrderItemEntity orderItem = new OrderItemEntity(5, retailItem);
+        Set<OrderItemEntity> orderItems = new HashSet<>();
         orderItems.add(orderItem);
-        orderItemRepository.save(orderItem);
+        // orderItemRepository.save(orderItem);
         // creare an order
-        Order order = new Order(orderItems, customer);
-        return orderRepository.save(order).id;
+        OrderEntity order = new OrderEntity(orderItems, customer);
+        return orderRepository.save(order).getId();
     }
 }

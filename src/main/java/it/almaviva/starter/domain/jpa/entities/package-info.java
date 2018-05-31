@@ -6,7 +6,7 @@
                 @Parameter(name="optimizer", value="hilo"),
                 @Parameter(name="increment_size", value="50")
         })
-package it.almaviva.starter.domain.entities;
+package it.almaviva.starter.domain.jpa.entities;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;

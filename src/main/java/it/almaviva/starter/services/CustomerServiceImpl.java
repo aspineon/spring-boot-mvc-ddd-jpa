@@ -1,6 +1,6 @@
 package it.almaviva.starter.services;
 
-import it.almaviva.starter.domain.entities.Customer;
+import it.almaviva.starter.domain.jpa.entities.CustomerEntity;
 import it.almaviva.starter.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class CustomerServiceImpl implements CustomerService {
     public Long registerRandomCustomer() {
         String firstName = "FirstName " + UUID.randomUUID().toString();
         String lastName = "LastName " + UUID.randomUUID().toString();
-        Customer randomCustomer = new Customer(firstName, lastName);
-        return customerRepository.save(randomCustomer).id;
+        CustomerEntity randomCustomer = new CustomerEntity(firstName, lastName);
+        return customerRepository.save(randomCustomer).getId();
     }
 }
