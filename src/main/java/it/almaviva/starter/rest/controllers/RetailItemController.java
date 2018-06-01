@@ -20,11 +20,11 @@ public class RetailItemController {
 
     @GetMapping("")
     public ResponseEntity<?> fetchAllRetailItems() {
-        List<RetailItemEntity> retailItems = retailItemService.getAllRetailItems();
-        return ResponseEntity.status(HttpStatus.OK).body(retailItems);
+        List<RetailItemEntity> allRetailItems = retailItemService.getAllRetailItems();
+        return ResponseEntity.status(HttpStatus.OK).body(allRetailItems);
     }
 
-    @PostMapping(value="", consumes={"application/json"})
+    @PostMapping(value = "", consumes = {"application/json"})
     public ResponseEntity<?> registerRetailItem(@RequestBody RegisterRetailItem command) {
         String title = command.getTitle();
         String description = command.getDescription();

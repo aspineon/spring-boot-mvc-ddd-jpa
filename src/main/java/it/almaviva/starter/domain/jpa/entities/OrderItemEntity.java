@@ -9,18 +9,18 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@NoArgsConstructor(access=AccessLevel.PRIVATE)
-@ToString(exclude={"retailItem"})
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@ToString(exclude = {"retailItem"})
 @Entity
-@Table(name="`order_item`")
+@Table(name = "`order_item`")
 public class OrderItemEntity extends AbstractBaseEntity<Order.OrderItem> implements Order.OrderItem {
 
     private Integer quantity;
 
     private AmountObject price;
 
-    @ManyToOne(fetch=FetchType.LAZY, cascade={}, optional=false)
-    @JoinColumn(name="retail_item_id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {}, optional = false)
+    @JoinColumn(name = "retail_item_id")
     private RetailItemEntity retailItem;
 
     public OrderItemEntity(Integer quantity, RetailItemEntity retailItem) {

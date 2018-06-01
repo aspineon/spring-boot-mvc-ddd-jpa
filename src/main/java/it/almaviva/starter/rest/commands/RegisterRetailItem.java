@@ -10,7 +10,7 @@ import lombok.Value;
 @Value
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonDeserialize(builder=RegisterRetailItem.RegisterRetailItemBuilder.class)
+@JsonDeserialize(builder = RegisterRetailItem.RegisterRetailItemBuilder.class)
 public final class RegisterRetailItem {
 
     @NonNull
@@ -20,7 +20,7 @@ public final class RegisterRetailItem {
     @NonNull
     private Integer price;
 
-    @JsonPOJOBuilder(withPrefix="")
+    @JsonPOJOBuilder(withPrefix = "")
     static final class RegisterRetailItemBuilder {
     }
 }

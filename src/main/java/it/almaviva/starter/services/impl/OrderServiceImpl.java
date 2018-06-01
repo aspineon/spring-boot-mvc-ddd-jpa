@@ -1,6 +1,14 @@
 package it.almaviva.starter.services.impl;
 
+import io.vavr.Tuple2;
+import io.vavr.collection.HashSet;
+import io.vavr.collection.List;
+import io.vavr.collection.Set;
+import io.vavr.control.Option;
+import it.almaviva.starter.domain.jpa.entities.CustomerEntity;
 import it.almaviva.starter.domain.jpa.entities.OrderEntity;
+import it.almaviva.starter.domain.jpa.entities.OrderItemEntity;
+import it.almaviva.starter.domain.jpa.entities.RetailItemEntity;
 import it.almaviva.starter.repositories.CustomerRepository;
 import it.almaviva.starter.repositories.OrderItemRepository;
 import it.almaviva.starter.repositories.OrderRepository;
@@ -8,9 +16,6 @@ import it.almaviva.starter.repositories.RetailItemRepository;
 import it.almaviva.starter.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -24,21 +29,34 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderItemRepository orderItemRepository;
 
-    @Override
     public List<OrderEntity> getAllOrders() {
-        return null;
+        Iterable<OrderEntity> orders = orderRepository.findAll();
+        return List.ofAll(orders);
     }
 
-    @Override
-    public Optional<OrderEntity> getSingleOrder(Long orderId) {
-        return Optional.empty();
+    public Option<OrderEntity> getSingleOrder(Long orderId) {
+        return Option.ofOptional(orderRepository.findById(orderId));
     }
 
-    @Override
-    public void insertOrder() {
+    public OrderEntity insertOrder(Long customerId, String address,
+                                   List<Tuple2<Integer, Long>> quantitiesAndIds) {
+        Option<CustomerEntity> customer = Option.ofOptional(
+            customerRepository.findById(customerId));
+        List<RetailItemEntity> retailItems = List.ofAll(
+            retailItemRepository.findAllById(quantitiesAndIds.map(quantityAndId ->
+                quantityAndId._2).asJava()));
+        List<Tuple2<Integer, RetailItemEntity>> quantitiesAndRetailItems =
+            quantitiesAndIds.zipWith(
+                retailItems,
+                (quantityAndId, retailItemEntity) ->
+                    new Tuple2<>(quantityAndId._1, retailItemEntity));
+        Set<OrderItemEntity> orderItems = HashSet.ofAll(
+            quantitiesAndRetailItems.map(quantityAndRetailItem ->
+                new OrderItemEntity(quantityAndRetailItem._1, quantityAndRetailItem._2)));
+        OrderEntity order = new OrderEntity(address, orderItems.toJavaSet(), customer.get());
+        return orderRepository.save(order);
     }
 
-    @Override
     public void insertOrderItemIntoOrder() {
     }
 }

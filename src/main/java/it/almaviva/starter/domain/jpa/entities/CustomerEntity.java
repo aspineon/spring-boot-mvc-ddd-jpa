@@ -8,9 +8,9 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@NoArgsConstructor(access=AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
-@Table(name="`customer`")
+@Table(name = "`customer`")
 public class CustomerEntity extends AbstractBaseEntity<Customer> implements Customer {
 
     private String firstName;

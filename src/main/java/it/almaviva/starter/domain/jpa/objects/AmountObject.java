@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Embeddable;
 
 @Data
-@NoArgsConstructor(access=AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Embeddable
-public class AmountObject implements Amount {
+public final class AmountObject implements Amount {
     private Integer price;
 
     public AmountObject(Integer price) {

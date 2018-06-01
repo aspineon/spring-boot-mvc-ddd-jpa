@@ -16,9 +16,9 @@ public class RetailItemServiceImpl implements RetailItemService {
     private RetailItemRepository retailItemRepository;
 
     public List<RetailItemEntity> getAllRetailItems() {
-        Iterable<RetailItemEntity> retrievedRetailItems =
+        Iterable<RetailItemEntity> retailItems =
                 retailItemRepository.findAll();
-        return Lists.newArrayList(retrievedRetailItems);
+        return Lists.newArrayList(retailItems);
     }
 
     public RetailItemEntity insertRetailItem(String title, String description, Integer price) {

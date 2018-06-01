@@ -12,28 +12,33 @@ import java.util.List;
 @Value
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonDeserialize(builder=RegisterCustomer.RegisterCustomerBuilder.class)
+@JsonDeserialize(builder = RegisterOrder.RegisterOrderBuilder.class)
 public final class RegisterOrder {
 
     @NonNull
     private Long customerId;
     @NonNull
     private String address;
-
-    // we need a list of retailItemId and quantity
     @NonNull
-    private List<RetailItemIdWithQuantity> retailItemIdsWithQuantity;
+    private List<SelectedRetailItem> selectedRetailItems;
 
-    @JsonPOJOBuilder(withPrefix="")
+    @JsonPOJOBuilder(withPrefix = "")
     static final class RegisterOrderBuilder {
     }
-}
 
-@Value
-@Builder
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonDeserialize(builder=RegisterCustomer.RegisterCustomerBuilder.class)
-final class RetailItemIdWithQuantity {
-    private Long retailItemId;
-    private Integer quantity;
+    @Value
+    @Builder
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonDeserialize(builder = SelectedRetailItem.SelectedRetailItemBuilder.class)
+    public static final class SelectedRetailItem {
+
+        @NonNull
+        private Long retailItemId;
+        @NonNull
+        private Integer quantity;
+
+        @JsonPOJOBuilder(withPrefix = "")
+        static final class SelectedRetailItemBuilder {
+        }
+    }
 }

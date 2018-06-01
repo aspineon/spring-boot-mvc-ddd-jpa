@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Embeddable;
 
 @Data
-@NoArgsConstructor(access=AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Embeddable
-public class ShippingAddressObject implements ShippingAddress {
+public final class ShippingAddressObject implements ShippingAddress {
     private String address;
 
     public ShippingAddressObject(String address) {

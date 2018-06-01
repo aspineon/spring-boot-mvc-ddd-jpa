@@ -19,11 +19,11 @@ public class CustomerController {
 
     @GetMapping("")
     public ResponseEntity<?> fetchAllCustomers() {
-        List<CustomerEntity> customers = customerService.getAllCustomers();
-        return ResponseEntity.status(HttpStatus.OK).body(customers);
+        List<CustomerEntity> allCustomers = customerService.getAllCustomers();
+        return ResponseEntity.status(HttpStatus.OK).body(allCustomers);
     }
 
-    @PostMapping(value="", consumes={"application/json"})
+    @PostMapping(value = "", consumes = {"application/json"})
     public ResponseEntity<?> registerCustomer(@RequestBody RegisterCustomer command) {
         String firstName = command.getFirstName();
         String lastName = command.getLastName();

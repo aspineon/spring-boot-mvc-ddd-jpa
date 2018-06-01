@@ -16,9 +16,9 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerRepository customerRepository;
 
     public List<CustomerEntity> getAllCustomers() {
-        Iterable<CustomerEntity> retrievedCustomers =
+        Iterable<CustomerEntity> customers =
                 customerRepository.findAll();
-        return Lists.newArrayList(retrievedCustomers);
+        return Lists.newArrayList(customers);
     }
 
     public CustomerEntity insertCustomer(String firstName, String lastName) {

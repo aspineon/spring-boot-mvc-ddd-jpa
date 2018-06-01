@@ -8,7 +8,7 @@ import lombok.*;
 @Value
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonDeserialize(builder=RegisterCustomer.RegisterCustomerBuilder.class)
+@JsonDeserialize(builder = RegisterCustomer.RegisterCustomerBuilder.class)
 public final class RegisterCustomer {
 
     @NonNull
@@ -16,7 +16,7 @@ public final class RegisterCustomer {
     @NonNull
     private String lastName;
 
-    @JsonPOJOBuilder(withPrefix="")
+    @JsonPOJOBuilder(withPrefix = "")
     static final class RegisterCustomerBuilder {
     }
 }

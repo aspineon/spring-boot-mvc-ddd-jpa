@@ -9,9 +9,9 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@NoArgsConstructor(access=AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
-@Table(name="`retail_item`")
+@Table(name = "`retail_item`")
 public class RetailItemEntity extends AbstractBaseEntity<RetailItem> implements RetailItem {
 
     private String title;
@@ -20,9 +20,9 @@ public class RetailItemEntity extends AbstractBaseEntity<RetailItem> implements 
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name="price", column=@Column(name="current_price")),
+            @AttributeOverride(name = "price", column = @Column(name = "current_price")),
     })
-    @Column(name="current_price")
+    @Column(name = "current_price")
     private AmountObject currentPrice;
 
     public RetailItemEntity(String title, String description) {
