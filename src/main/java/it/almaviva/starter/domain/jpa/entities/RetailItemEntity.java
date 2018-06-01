@@ -14,13 +14,10 @@ import javax.persistence.*;
 @Table(name="`retail_item`")
 public class RetailItemEntity extends AbstractBaseEntity<RetailItem> implements RetailItem {
 
-    // a retail item has a title
     private String title;
 
-    // a retail item has a description
     private String description;
 
-    // a retail item has a price which reflect its value on the market
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name="price", column=@Column(name="current_price")),
@@ -31,12 +28,12 @@ public class RetailItemEntity extends AbstractBaseEntity<RetailItem> implements 
     public RetailItemEntity(String title, String description) {
         this.title = title;
         this.description = description;
-        this.currentPrice = new AmountObject();
+        this.currentPrice = new AmountObject(0);
     }
 
-    public RetailItemEntity(String title, String description, AmountObject currentPrice) {
+    public RetailItemEntity(String title, String description, Integer price) {
         this.title = title;
         this.description = description;
-        this.currentPrice = currentPrice;
+        this.currentPrice = new AmountObject(price);
     }
 }

@@ -11,12 +11,10 @@ import javax.persistence.*;
 @NoArgsConstructor(access=AccessLevel.PRIVATE)
 @Entity
 @Table(name="`customer`")
-public class CustomerEntity extends AbstractBaseEntity<Customer> {
+public class CustomerEntity extends AbstractBaseEntity<Customer> implements Customer {
 
-    // a customer has a  first name
     private String firstName;
 
-    // a customer has a last name
     private String lastName;
 
     public CustomerEntity(String firstName, String lastName) {

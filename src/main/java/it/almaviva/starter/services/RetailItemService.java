@@ -1,5 +1,10 @@
 package it.almaviva.starter.services;
 
+import it.almaviva.starter.domain.jpa.entities.RetailItemEntity;
+
+import java.util.List;
+
 public interface RetailItemService {
-    Long registerRandomRetailItem();
+    List<RetailItemEntity> getAllRetailItems();
+    RetailItemEntity insertRetailItem(String title, String description, Integer price);
 }

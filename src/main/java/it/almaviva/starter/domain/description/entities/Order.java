@@ -13,8 +13,6 @@ public interface Order extends BaseEntity<Order> {
 
     ShippingAddress getShippingAddress();
 
-    Amount getTotalPrice();
-
     Amount getShippingCost();
 
     Collection<OrderItem> getOrderItems();

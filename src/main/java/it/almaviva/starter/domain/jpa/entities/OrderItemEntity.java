@@ -15,13 +15,10 @@ import javax.persistence.*;
 @Table(name="`order_item`")
 public class OrderItemEntity extends AbstractBaseEntity<Order.OrderItem> implements Order.OrderItem {
 
-    // an order item can be ordered many times
     private Integer quantity;
 
-    // an order item has a price which can differ from the retail item
     private AmountObject price;
 
-    // a retail item may be referenced by multiple order items
     @ManyToOne(fetch=FetchType.LAZY, cascade={}, optional=false)
     @JoinColumn(name="retail_item_id")
     private RetailItemEntity retailItem;
@@ -32,9 +29,9 @@ public class OrderItemEntity extends AbstractBaseEntity<Order.OrderItem> impleme
         this.retailItem = retailItem;
     }
 
-    public OrderItemEntity(Integer quantity, AmountObject price, RetailItemEntity retailItem) {
+    public OrderItemEntity(Integer quantity, Integer price, RetailItemEntity retailItem) {
         this.quantity = quantity;
-        this.price = price;
+        this.price = new AmountObject(price);
         this.retailItem = retailItem;
     }
 }
