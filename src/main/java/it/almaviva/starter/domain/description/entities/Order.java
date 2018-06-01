@@ -6,6 +6,7 @@ import it.almaviva.starter.domain.description.objects.ShippingAddress;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.Set;
 
 public interface Order extends BaseEntity<Order> {
 
@@ -15,7 +16,7 @@ public interface Order extends BaseEntity<Order> {
 
     Amount getShippingCost();
 
-    Collection<OrderItem> getOrderItems();
+    Collection<? extends OrderItem> getOrderItems();
 
     Customer getCustomer();
 
