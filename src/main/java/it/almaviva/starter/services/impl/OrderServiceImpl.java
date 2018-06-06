@@ -44,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
             customerRepository.findById(customerId));
         List<RetailItemEntity> retailItems = List.ofAll(
             retailItemRepository.findAllById(quantitiesAndIds.map(quantityAndId ->
-                quantityAndId._2).asJava()));
+                quantityAndId._2)));
         List<Tuple2<Integer, RetailItemEntity>> quantitiesAndRetailItems =
             quantitiesAndIds.zipWith(
                 retailItems,
