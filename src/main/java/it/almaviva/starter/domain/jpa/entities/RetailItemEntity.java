@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 @Entity
 @Table(name = "`retail_item`")
 public class RetailItemEntity extends AbstractBaseEntity<RetailItem> implements RetailItem {

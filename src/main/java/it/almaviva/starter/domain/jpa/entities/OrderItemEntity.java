@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 @ToString(exclude = {"retailItem"})
 @Entity
 @Table(name = "`order_item`")
@@ -17,10 +17,15 @@ public class OrderItemEntity extends AbstractBaseEntity<Order.OrderItem> impleme
 
     private Integer quantity;
 
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "price", column = @Column(name = "price")),
+    })
+    @Column(name = "price")
     private AmountObject price;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {}, optional = false)
-    @JoinColumn(name = "retail_item_id")
+    @JoinColumn(name= "retail_item_id")
     private RetailItemEntity retailItem;
 
     public OrderItemEntity(Integer quantity, RetailItemEntity retailItem) {

@@ -10,5 +10,5 @@ public interface OrderService {
     Option<OrderEntity> getSingleOrder(Long orderId);
     OrderEntity insertOrder(Long customerId, String address,
                      List<Tuple2<Integer, Long>> idsAndQuantities);
-    void insertOrderItemIntoOrder();
+    OrderEntity insertOrderItemIntoOrder(Long orderId, Long retailItemId, Integer quantity);
 }

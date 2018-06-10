@@ -2,20 +2,20 @@ package it.almaviva.starter.domain.jpa.entities;
 
 import it.almaviva.starter.domain.AbstractBaseEntity;
 import it.almaviva.starter.domain.description.entities.Order;
-import it.almaviva.starter.domain.description.objects.Amount;
-import it.almaviva.starter.domain.description.objects.ShippingAddress;
 import it.almaviva.starter.domain.jpa.objects.AmountObject;
 import it.almaviva.starter.domain.jpa.objects.ShippingAddressObject;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 import java.sql.Date;
 import java.util.Set;
 
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 @ToString(exclude = {"orderItems", "customer"})
 @Entity
 @Table(name = "`order`")
@@ -27,16 +27,22 @@ public class OrderEntity extends AbstractBaseEntity<Order> implements Order {
     @AttributeOverrides({
             @AttributeOverride(name = "address", column = @Column(name = "shipping_address")),
     })
-    private ShippingAddress shippingAddress;
+    @Column(name = "shipping_address")
+    private ShippingAddressObject shippingAddress;
 
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "price", column = @Column(name = "shipping_cost")),
     })
-    private Amount shippingCost;
+    @Column(name = "shipping_cost")
+    private AmountObject shippingCost;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "order_id")
+    @JoinTable(name = "`order_order_item`",
+        joinColumns = @JoinColumn(name = "order_item_id",
+            referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "order_id",
+            referencedColumnName = "id"))
     private Set<OrderItemEntity> orderItems;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {}, optional = false)

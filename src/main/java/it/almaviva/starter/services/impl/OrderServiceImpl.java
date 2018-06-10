@@ -44,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
             customerRepository.findById(customerId));
         List<RetailItemEntity> retailItems = List.ofAll(
             retailItemRepository.findAllById(quantitiesAndIds.map(quantityAndId ->
-                quantityAndId._2)));
+                quantityAndId._2).asJava()));
         List<Tuple2<Integer, RetailItemEntity>> quantitiesAndRetailItems =
             quantitiesAndIds.zipWith(
                 retailItems,
@@ -57,6 +57,16 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.save(order);
     }
 
-    public void insertOrderItemIntoOrder() {
+    public OrderEntity insertOrderItemIntoOrder(Long orderId, Long retailItemId, Integer quantity) {
+        Option<OrderEntity> order = Option.ofOptional(orderRepository.findById(orderId));
+        Option<RetailItemEntity> retailItem = Option.ofOptional(retailItemRepository.findById(retailItemId));
+        Option<OrderItemEntity> orderItem = retailItem.map(ri -> new OrderItemEntity(quantity, ri));
+        Option<OrderEntity> maybeUpdatedOrder = orderItem
+            .flatMap(oi -> order.map(o -> {
+                final Set<OrderItemEntity> oldOrderItems = HashSet.ofAll(o.getOrderItems());
+                o.setOrderItems(oldOrderItems.add(oi).toJavaSet());
+                return orderRepository.save(o);
+            }));
+        return maybeUpdatedOrder.get();
     }
 }

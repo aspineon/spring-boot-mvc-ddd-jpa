@@ -4,7 +4,9 @@ import io.vavr.Tuple2;
 import io.vavr.collection.List;
 import io.vavr.control.Option;
 import it.almaviva.starter.domain.jpa.entities.OrderEntity;
+import it.almaviva.starter.rest.commands.AddOrderItemToOrder;
 import it.almaviva.starter.rest.commands.RegisterOrder;
+import it.almaviva.starter.rest.dto.OrderDTO;
 import it.almaviva.starter.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,14 +23,16 @@ public class OrderController {
     @GetMapping("")
     public ResponseEntity<?> fetchAllOrders() {
         List<OrderEntity> allOrders = orderService.getAllOrders();
-        return ResponseEntity.status(HttpStatus.OK).body(allOrders);
+        List<OrderDTO> ordersDTO = allOrders.map(OrderDTO::fromOrderEntity);
+        return ResponseEntity.status(HttpStatus.OK).body(ordersDTO.asJava());
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<?> fetchSingleOrder(@RequestParam Long orderId) {
+    public ResponseEntity<?> fetchSingleOrder(@PathVariable Long orderId) {
         Option<OrderEntity> maybeOrder = orderService.getSingleOrder(orderId);
         return maybeOrder
-                .map(order -> ResponseEntity.status(HttpStatus.OK).body(order))
+                .map(OrderDTO::fromOrderEntity)
+                .map(orderDTO -> ResponseEntity.status(HttpStatus.OK).body(orderDTO))
                 .getOrElse(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
@@ -46,7 +50,10 @@ public class OrderController {
     }
 
     @PostMapping(value = "/{orderId}", consumes = "application/json")
-    public ResponseEntity<?> addOrderItemToOrder() {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> addOrderItemToOrder(@PathVariable Long orderId, @RequestBody AddOrderItemToOrder command) {
+        Long retailItemId = command.getRetailItemId();
+        Integer quantity = command.getQuantity();
+        OrderEntity updatedOrder = orderService.insertOrderItemIntoOrder(orderId, retailItemId, quantity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(updatedOrder);
     }
 }
