@@ -6,7 +6,7 @@ import io.vavr.control.Option;
 import it.almaviva.starter.domain.jpa.entities.OrderEntity;
 import it.almaviva.starter.rest.commands.AddOrderItemToOrder;
 import it.almaviva.starter.rest.commands.RegisterOrder;
-import it.almaviva.starter.rest.dto.OrderDTO;
+import it.almaviva.starter.rest.dtos.OrderDTO;
 import it.almaviva.starter.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,8 +23,10 @@ public class OrderController {
     @GetMapping("")
     public ResponseEntity<?> fetchAllOrders() {
         List<OrderEntity> allOrders = orderService.getAllOrders();
-        List<OrderDTO> ordersDTO = allOrders.map(OrderDTO::fromOrderEntity);
-        return ResponseEntity.status(HttpStatus.OK).body(ordersDTO.asJava());
+        List<OrderDTO> allOrdersDTO = allOrders.map(OrderDTO::fromOrderEntity);
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(allOrdersDTO.asJava());
     }
 
     @GetMapping("/{orderId}")
@@ -46,7 +48,9 @@ public class OrderController {
                         selectedRetailItem.getRetailItemId())
                 );
         OrderEntity insertedOrder = orderService.insertOrder(customerId, address, quantitiesAndIds);
-        return ResponseEntity.status(HttpStatus.CREATED).body(insertedOrder);
+        return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(OrderDTO.fromOrderEntity(insertedOrder));
     }
 
     @PostMapping(value = "/{orderId}", consumes = "application/json")
@@ -54,6 +58,8 @@ public class OrderController {
         Long retailItemId = command.getRetailItemId();
         Integer quantity = command.getQuantity();
         OrderEntity updatedOrder = orderService.insertOrderItemIntoOrder(orderId, retailItemId, quantity);
-        return ResponseEntity.status(HttpStatus.CREATED).body(updatedOrder);
+        return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(OrderDTO.fromOrderEntity(updatedOrder));
     }
 }

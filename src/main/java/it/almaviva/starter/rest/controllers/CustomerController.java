@@ -2,6 +2,7 @@ package it.almaviva.starter.rest.controllers;
 
 import it.almaviva.starter.domain.jpa.entities.CustomerEntity;
 import it.almaviva.starter.rest.commands.RegisterCustomer;
+import it.almaviva.starter.rest.dtos.CustomerDTO;
 import it.almaviva.starter.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/customers")
@@ -20,7 +22,10 @@ public class CustomerController {
     @GetMapping("")
     public ResponseEntity<?> fetchAllCustomers() {
         List<CustomerEntity> allCustomers = customerService.getAllCustomers();
-        return ResponseEntity.status(HttpStatus.OK).body(allCustomers);
+        List<CustomerDTO> allCustomersDTO = allCustomers.stream()
+            .map(CustomerDTO::fromCustomerEntity)
+            .collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(allCustomersDTO);
     }
 
     @PostMapping(value = "", consumes = {"application/json"})
