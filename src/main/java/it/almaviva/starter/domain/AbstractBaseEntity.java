@@ -12,7 +12,8 @@ import javax.persistence.MappedSuperclass;
 @Data
 @Setter(AccessLevel.PRIVATE)
 @MappedSuperclass
-public abstract class AbstractBaseEntity<T extends BaseEntity<T>> implements BaseEntity<T> {
+public abstract class AbstractBaseEntity<T extends BaseEntity<T>>
+    implements BaseEntity<T> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

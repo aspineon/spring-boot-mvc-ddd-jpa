@@ -13,7 +13,8 @@ import javax.persistence.*;
 @ToString(exclude = {"retailItem"})
 @Entity
 @Table(name = "`order_item`")
-public class OrderItemEntity extends AbstractBaseEntity<Order.OrderItem> implements Order.OrderItem {
+public class OrderItemEntity extends AbstractBaseEntity<Order.OrderItem>
+    implements Order.OrderItem {
 
     private Integer quantity;
 

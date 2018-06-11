@@ -1,9 +1,11 @@
 package it.almaviva.starter.domain.jpa.entities;
 
-import it.almaviva.starter.domain.AbstractBaseEntity;
+import it.almaviva.starter.domain.AbstractRootEntity;
 import it.almaviva.starter.domain.description.entities.RetailItem;
 import it.almaviva.starter.domain.jpa.objects.AmountObject;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -12,7 +14,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "`retail_item`")
-public class RetailItemEntity extends AbstractBaseEntity<RetailItem> implements RetailItem {
+public class RetailItemEntity extends AbstractRootEntity<RetailItem, RetailItemEntity>
+    implements RetailItem {
 
     private String title;
 

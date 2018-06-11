@@ -1,6 +1,6 @@
 package it.almaviva.starter.domain.jpa.entities;
 
-import it.almaviva.starter.domain.AbstractBaseEntity;
+import it.almaviva.starter.domain.AbstractRootEntity;
 import it.almaviva.starter.domain.description.entities.Order;
 import it.almaviva.starter.domain.jpa.objects.AmountObject;
 import it.almaviva.starter.domain.jpa.objects.ShippingAddressObject;
@@ -19,7 +19,8 @@ import java.util.Set;
 @ToString(exclude = {"orderItems", "customer"})
 @Entity
 @Table(name = "`order`")
-public class OrderEntity extends AbstractBaseEntity<Order> implements Order {
+public class OrderEntity extends AbstractRootEntity<Order, OrderEntity>
+    implements Order {
 
     private Date orderDate;
 

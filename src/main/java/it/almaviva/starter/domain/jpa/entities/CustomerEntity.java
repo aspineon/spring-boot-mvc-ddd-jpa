@@ -1,17 +1,21 @@
 package it.almaviva.starter.domain.jpa.entities;
 
-import it.almaviva.starter.domain.AbstractBaseEntity;
+import it.almaviva.starter.domain.AbstractRootEntity;
 import it.almaviva.starter.domain.description.entities.Customer;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "`customer`")
-public class CustomerEntity extends AbstractBaseEntity<Customer> implements Customer {
+public class CustomerEntity extends AbstractRootEntity<Customer, CustomerEntity>
+    implements Customer {
 
     private String firstName;
 

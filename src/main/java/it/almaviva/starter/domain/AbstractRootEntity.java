@@ -13,8 +13,8 @@ import javax.persistence.MappedSuperclass;
 @Data
 @Setter(AccessLevel.PRIVATE)
 @MappedSuperclass
-public class AbstractBaseAggregateRoot<T extends  AbstractAggregateRoot<T> & BaseEntity<T>>
-    extends AbstractAggregateRoot<T> implements BaseEntity<T> {
+public abstract class AbstractRootEntity<T extends BaseEntity<T>, U extends AbstractAggregateRoot<U>>
+    extends AbstractAggregateRoot<U> implements BaseEntity<T> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,10 +26,10 @@ public class AbstractBaseAggregateRoot<T extends  AbstractAggregateRoot<T> & Bas
 
     @Override
     public boolean equals(final Object object) {
-        if (!(object instanceof AbstractBaseAggregateRoot)) {
+        if (!(object instanceof AbstractRootEntity)) {
             return false;
         }
-        final AbstractBaseAggregateRoot<?> that = (AbstractBaseAggregateRoot<?>) object;
+        final AbstractRootEntity<?, ?> that = (AbstractRootEntity<?, ?>) object;
         checkIdentity(this);
         checkIdentity(that);
         return this.id.equals(that.getId());
@@ -40,7 +40,7 @@ public class AbstractBaseAggregateRoot<T extends  AbstractAggregateRoot<T> & Bas
         return getId() != null ? getId().hashCode() : 0;
     }
 
-    private void checkIdentity(final AbstractBaseAggregateRoot<?> entity) {
+    private void checkIdentity(final AbstractRootEntity<?, ?> entity) {
         if (entity.getId() == null){
             throw new IllegalStateException("Identity missing in entity: " + entity);
         }
