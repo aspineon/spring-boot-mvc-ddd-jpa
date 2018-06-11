@@ -25,7 +25,9 @@ public class CustomerController {
         List<CustomerDTO> allCustomersDTO = allCustomers.stream()
             .map(CustomerDTO::fromCustomerEntity)
             .collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.OK).body(allCustomersDTO);
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(allCustomersDTO);
     }
 
     @PostMapping(value = "", consumes = {"application/json"})
@@ -34,6 +36,8 @@ public class CustomerController {
         String lastName = command.getLastName();
         CustomerEntity insertedCustomer =
                 customerService.insertCustomer(firstName, lastName);
-        return ResponseEntity.status(HttpStatus.CREATED).body(insertedCustomer);
+        return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(CustomerDTO.fromCustomerEntity(insertedCustomer));
     }
 }
